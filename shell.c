@@ -1,0 +1,35 @@
+#include<stdio.h>
+#include<unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+int main(int argc, char *argv[])
+{
+        char *buffer = NULL;
+        size_t i = 0;
+        int read;
+        pid_t pid;
+        char *new_argv[] = {"usr/bin/", NULL};
+        pid = fork();
+        if (pid == -1)
+                return -1;
+        if (pid == 0)
+        {
+                int x = execve(new_argv[0], new_argv, NULL);
+                if (x == -1)
+                {
+                        perror ("error");
+                }
+        }else
+        {
+                wait(NULL);
+                if (argc == 1)
+                        {
+                                printf("$ ");
+                                read = getline(&buffer, &i, stdin);
+                                if (read == EOF)
+                                        perror("Error");
+                                printf(">>>>%s\n", buffer);
+                        }
+        }
+                return (0);
+}
