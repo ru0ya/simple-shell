@@ -2,6 +2,8 @@
 #include<unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <string.h>
+#include <stdlib.h>
 
 /**
  * main - entry point
@@ -13,10 +15,13 @@
 int main(int argc, char *argv[])
 {
 	char *buffer = NULL;
-	size_t i = 0;
+
+	size_t i = 1024;
+	
 	int read;
 	pid_t pid;
-	char *new_argv[] = {"usr/bin/", NULL};
+	char *token, *saveptr1;
+	char *new_argv[] = {"usr/bin/ls", NULL};
 
 	pid = fork();
 
@@ -36,12 +41,20 @@ int main(int argc, char *argv[])
 		wait(NULL);
 		if (argc == 1)
 		{
+			while(1)
+			{
 			printf("$");
 			read = getline(&buffer, &i, stdin);
 			if (read == EOF)
 				perror("Error");
 			printf(">>>>%s\n", buffer);
+			token = strtok(buffer, saveptr1);
+			if (token == NULL )
+				break;
+			  printf("%s\n", token);
+			  
+			}
 		}
 	}
-	return (0);
+	exit(EXIT_SUCCESS);
 }

@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
                                 perror("Error");
 			for(p = 0; p < argc; p++)
 			{
-				printf("this argv[%d]: %s\n", argv[p]);
+				printf("this argv[%d]: %s\n", argv[p], buffer);
 			}
                         printf(">>>>%s\n", buffer);
                 }
