@@ -1,8 +1,11 @@
-#include<stdio.h>
-#include<unistd.h>
+#include <stdio.h>
+#include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+<<<<<<< HEAD
 #include <string.h>
+=======
+>>>>>>> 8187c0ff34cd9a936caa245be0cdbac8b40b4e86
 #include <stdlib.h>
 
 /**
@@ -20,18 +23,24 @@ int main(int argc, char *argv[])
 	
 	int read;
 	pid_t pid;
+<<<<<<< HEAD
 	char *token, *saveptr1;
+=======
+>>>>>>> 8187c0ff34cd9a936caa245be0cdbac8b40b4e86
 	char *new_argv[] = {"usr/bin/ls", NULL};
 
-	pid = fork();
+	(void) argc;
 
-	if (pid == -1)
-		return (-1);
+	pid = fork();
+	
+	if(pid == -1)
+		return (1);
 	if (pid == 0)
 	{
-		int x = execve(new_argv[0], new_argv, NULL);
 
-		if (x == -1)
+		 execve(new_argv[0], new_argv, NULL);
+
+		if (execve(new_argv[0], new_argv, NULL) == -1)
 		{
 			perror("error");
 		}
@@ -39,14 +48,17 @@ int main(int argc, char *argv[])
 	else
 	{
 		wait(NULL);
-		if (argc == 1)
+
+		while (1)
 		{
 			while(1)
 			{
 			printf("$");
 			read = getline(&buffer, &i, stdin);
 			if (read == EOF)
+			{
 				perror("Error");
+<<<<<<< HEAD
 			printf(">>>>%s\n", buffer);
 			token = strtok(buffer, saveptr1);
 			if (token == NULL )
@@ -54,6 +66,10 @@ int main(int argc, char *argv[])
 			  printf("%s\n", token);
 			  
 			}
+=======
+			}
+			printf("%s\n", buffer);
+>>>>>>> 8187c0ff34cd9a936caa245be0cdbac8b40b4e86
 		}
 	}
 	exit(EXIT_SUCCESS);
