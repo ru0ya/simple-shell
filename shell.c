@@ -1,7 +1,8 @@
-#include<stdio.h>
-#include<unistd.h>
+#include <stdio.h>
+#include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <stdlib.h>
 
 /**
  * main - entry point
@@ -16,17 +17,20 @@ int main(int argc, char *argv[])
 	size_t i = 0;
 	int read;
 	pid_t pid;
-	char *new_argv[] = {"usr/bin/", NULL};
+	char *new_argv[] = {"usr/bin/ls", NULL};
+
+	(void) argc;
 
 	pid = fork();
-
-	if (pid == -1)
-		return (-1);
+	
+	if(pid == -1)
+		return (1);
 	if (pid == 0)
 	{
-		int x = execve(new_argv[0], new_argv, NULL);
 
-		if (x == -1)
+		 execve(new_argv[0], new_argv, NULL);
+
+		if (execve(new_argv[0], new_argv, NULL) == -1)
 		{
 			perror("error");
 		}
@@ -34,13 +38,16 @@ int main(int argc, char *argv[])
 	else
 	{
 		wait(NULL);
-		if (argc == 1)
+
+		while (1)
 		{
 			printf("$");
 			read = getline(&buffer, &i, stdin);
 			if (read == EOF)
+			{
 				perror("Error");
-			printf(">>>>%s\n", buffer);
+			}
+			printf("%s\n", buffer);
 		}
 	}
 	return (0);
