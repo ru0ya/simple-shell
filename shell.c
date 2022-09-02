@@ -2,75 +2,49 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-<<<<<<< HEAD
 #include <string.h>
-=======
->>>>>>> 8187c0ff34cd9a936caa245be0cdbac8b40b4e86
 #include <stdlib.h>
 
+int process(char *buffer, char **argv)
+{
+        pid_t pid;
+        pid = fork();
+        if (pid == -1)
+                return (-1);
+if (pid == 0)
+{
+int x = execve(buffer, argv, NULL);
+if (x == -1)
+{
+perror("error");
+exit(EXIT_FAILURE);
+}
+execve(buffer, argv, NULL);
+}
+return (1);
+}
 /**
- * main - entry point
- *
- *@argc: number of arguments
- *@argv: string pointer
- *Return: 0 (success)
- */
+main - entry point
+*
+*@argc: number of arguments
+*@argv: string pointer
+*Return: 0 (success)
+*/
 int main(int argc, char *argv[])
 {
 	char *buffer = NULL;
-
 	size_t i = 1024;
-	
-	int read;
+	int status = 1;
+	char *str;
 	pid_t pid;
-<<<<<<< HEAD
-	char *token, *saveptr1;
-=======
->>>>>>> 8187c0ff34cd9a936caa245be0cdbac8b40b4e86
-	char *new_argv[] = {"usr/bin/ls", NULL};
-
-	(void) argc;
-
-	pid = fork();
-	
-	if(pid == -1)
-		return (1);
-	if (pid == 0)
-	{
-
-		 execve(new_argv[0], new_argv, NULL);
-
-		if (execve(new_argv[0], new_argv, NULL) == -1)
-		{
-			perror("error");
-		}
-	}
-	else
-	{
-		wait(NULL);
-
-		while (1)
-		{
-			while(1)
-			{
-			printf("$");
-			read = getline(&buffer, &i, stdin);
-			if (read == EOF)
-			{
-				perror("Error");
-<<<<<<< HEAD
-			printf(">>>>%s\n", buffer);
-			token = strtok(buffer, saveptr1);
-			if (token == NULL )
-				break;
-			  printf("%s\n", token);
-			  
-			}
-=======
-			}
-			printf("%s\n", buffer);
->>>>>>> 8187c0ff34cd9a936caa245be0cdbac8b40b4e86
-		}
-	}
-	exit(EXIT_SUCCESS);
+	do {
+		printf("$ ");
+		getline(&buffer, &i, stdin);
+		str=strtok(buffer, "\n");
+		status = process(str, argv);
+		printf("this is %s\n", buffer);
+	} while (status);
+	return (status);
 }
+
+                                    
