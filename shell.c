@@ -1,27 +1,27 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <string.h>
-#include <stdlib.h>
-
+#include "main.h"
+/*
+ * process - returns a process
+ * @buffer: pointer to a buffer
+ * @argv: pointer to an argument of characer
+ * Return: 1 i fprocess works
+ */
 int process(char *buffer, char **argv)
 {
         pid_t pid;
         pid = fork();
         if (pid == -1)
                 return (-1);
-if (pid == 0)
-{
-int x = execve(buffer, argv, NULL);
-if (x == -1)
-{
-perror("error");
-exit(EXIT_FAILURE);
-}
-execve(buffer, argv, NULL);
-}
-return (1);
+	if (pid == 0)
+	{
+		int x = execve(buffer, argv, NULL);
+		if (x == -1)
+		{
+			perror("error");
+			exit(EXIT_FAILURE);
+		}
+		execve(buffer, argv, NULL);
+	}
+	return (1);
 }
 /**
 main - entry point
@@ -37,6 +37,7 @@ int main(int argc, char *argv[])
 	int status = 1;
 	char *str;
 	pid_t pid;
+
 	do {
 		printf("$ ");
 		getline(&buffer, &i, stdin);
