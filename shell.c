@@ -1,10 +1,10 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <string.h>
-#include <stdlib.h>
-
+#include "main.h"
+/*
+ * process - returns a process
+ * @buffer: pointer to a buffer
+ * @argv: pointer to an argument of characer
+ * Return: 1 i fprocess works
+ */
 int process(char *buffer, char **argv)
 {
         pid_t pid;
