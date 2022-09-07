@@ -46,6 +46,4 @@ int main(int argc, char *argv[])
 		printf("this is %s\n", buffer);
 	} while (status);
 	return (status);
-}
-
-                                    
+}                                   
