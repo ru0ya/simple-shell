@@ -1,54 +1,51 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <stdlib.h>
-
-/**
- * main - entry point
- *
- *@argc: number of arguments
- *@argv: string pointer
- *Return: 0 (success)
+#include "main.h"
+/*
+ * process - returns a process
+ * @buffer: pointer to a buffer
+ * @argv: pointer to an argument of characer
+ * Return: 1 i fprocess works
  */
+int process(char *buffer, char **argv)
+{
+        pid_t pid;
+        pid = fork();
+        if (pid == -1)
+                return (-1);
+	if (pid == 0)
+	{
+		int x = execve(buffer, argv, NULL);
+		if (x == -1)
+		{
+			perror("error");
+			exit(EXIT_FAILURE);
+		}
+		execve(buffer, argv, NULL);
+	}
+	return (1);
+}
+/**
+main - entry point
+*
+*@argc: number of arguments
+*@argv: string pointer
+*Return: 0 (success)
+*/
 int main(int argc, char *argv[])
 {
 	char *buffer = NULL;
-	size_t i = 0;
-	int read;
+	size_t i = 1024;
+	int status = 1;
+	char *str;
 	pid_t pid;
-	char *new_argv[] = {"usr/bin/ls", NULL};
 
-	(void) argc;
-
-	pid = fork();
-	
-	if(pid == -1)
-		return (1);
-	if (pid == 0)
-	{
-
-		 execve(new_argv[0], new_argv, NULL);
-
-		if (execve(new_argv[0], new_argv, NULL) == -1)
-		{
-			perror("error");
-		}
-	}
-	else
-	{
-		wait(NULL);
-
-		while (1)
-		{
-			printf("$");
-			read = getline(&buffer, &i, stdin);
-			if (read == EOF)
-			{
-				perror("Error");
-			}
-			printf("%s\n", buffer);
-		}
-	}
-	return (0);
+	do {
+		printf("$ ");
+		getline(&buffer, &i, stdin);
+		str=strtok(buffer, "\n");
+		status = process(str, argv);
+		printf("this is %s\n", buffer);
+	} while (status);
+	return (status);
 }
+
+                                    

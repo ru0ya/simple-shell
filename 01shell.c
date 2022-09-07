@@ -20,6 +20,7 @@ int main(int argc, char *argv[])
         pid_t pid;
         char *new_argv[] = {"usr/bin/", NULL};
 	int p;
+	char *envp[] = { ( char *) "PATH = /bin", 0};
 
         pid = fork();
 
@@ -27,7 +28,7 @@ int main(int argc, char *argv[])
                 return (-1);
         if (pid == 0)
         {
-                int x = execve(new_argv[0], new_argv, NULL);
+                int x = execve(new_argv[0], new_argv, envp);
 
 				   if (x == -1)
                 {
@@ -43,10 +44,7 @@ int main(int argc, char *argv[])
                         read = getline(&buffer, &i, stdin);
                         if (read == EOF)
                                 perror("Error");
-			for(p = 0; p < argc; p++)
-			{
-				printf("this argv[%d]: %s\n", argv[p]);
-			}
+			strcpy(buffer, "/bin");
                         printf(">>>>%s\n", buffer);
                 }
         }
