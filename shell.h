@@ -13,21 +13,18 @@
 #include <signal.h> /* for signal management */
 #include <fcntl.h> /* for open files*/
 
-/************* MACROS **************/
-
 #include "macros.h" /* for msg help and prompt */
 
-/************* STRUCTURES **************/
 
 /**
  * struct info- struct for the program's data
- * @program_name: the name of the executable
+ * @program_name: executable name
  * @input_line: pointer to the input read for _getline
  * @command_name: pointer to the first command typed by the user
- * @exec_counter: number of excecuted comands
- * @file_descriptor: file descriptor to the input of commands
- * @tokens: pointer to array of tokenized input
- * @env: copy of the environ
+ * @exec_counter: no. of excecuted comands
+ * @file_descriptor: file descriptor to input of commands
+ * @tokens: pointer to an array of tokenized input
+ * @env: environ copy
  * @alias_list: array of pointers with aliases.
  */
 typedef struct info
@@ -43,9 +40,9 @@ typedef struct info
 } data_of_program;
 
 /**
- * struct builtins - struct for the builtins
- * @builtin: the name of the builtin
- * @function: the associated function to be called for each builtin
+ * struct builtins - struct for builtins
+ * @builtin: name of builtin
+ * @function: associated function to be called for each builtin
  */
 typedef struct builtins
 {
@@ -186,11 +183,6 @@ int env_remove_key(char *key, data_of_program *data);
 void print_environ(data_of_program *data);
 
 
-/************** HELPERS FOR PRINTING **************/
-
-
-/*======== helpers_print.c ========*/
-
 /* Prints a string in the standar output */
 int _print(char *string);
 
@@ -201,10 +193,7 @@ int _printe(char *string);
 int _print_error(int errorcode, data_of_program *data);
 
 
-/************** HELPERS FOR STRINGS MANAGEMENT **************/
 
-
-/*======== helpers_string.c ========*/
 
 /* Counts the number of characters of a string */
 int str_length(char *string);
@@ -222,8 +211,6 @@ char *str_concat(char *string1, char *string2);
 void str_reverse(char *string);
 
 
-/*======== helpers_numbers.c ========*/
-
 /* Cast from int to string */
 void long_to_string(long number, char *string, int base);
 
@@ -234,7 +221,7 @@ int _atoi(char *s);
 int count_characters(char *string, char *character);
 
 
-/*======== alias_management.c ========*/
+
 
 /* print the list of alias */
 int print_alias(data_of_program *data, char *alias);
