@@ -1,7 +1,7 @@
 env: env
-    Print environment
+    Print environment.
 
     Options:
-	NONE
+	NONE.
 
       Return environment to standard output.
